@@ -5,7 +5,6 @@ Created on Jan 6, 2020
 '''
 
 import csv
-from __builtin__ import int
 from numpy import double
 
 
@@ -40,7 +39,7 @@ def calc(filename):
     opt = optimalRate(rates)
     ct = ctvals(rates, cutoff, times)
     maxtime = times[opt]
-    return "Threshold Value is " + str(cutoff) + " and optimal linearity is at time " + str(maxtime) + ". ct vals in order: " + str(ct)
+    return "Threshold Value is " + str(cutoff) + " and optimal linearity is at time " + str(maxtime) + ". \n ct vals in order: " + str(ct)
 
 
 

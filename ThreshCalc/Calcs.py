@@ -7,7 +7,7 @@ Created on Jan 6, 2020
 import csv
 from __builtin__ import int
 from numpy import double
-from matplotlib.sankey import DOWN
+
 
 
 def filereadrates(filename):
@@ -38,8 +38,9 @@ def calc(filename):
 
     cutoff = ratechecker(rates)
     opt = optimalRate(rates)
+    ct = ctvals(rates, cutoff, times)
     maxtime = times[opt]
-    return "Ct Value is " + str(cutoff) + " and optimal linearity is at time " + str(maxtime)
+    return "Threshold Value is " + str(cutoff) + " and optimal linearity is at time " + str(maxtime) + ". ct vals in order: " + str(ct)
 
 
 
@@ -71,9 +72,9 @@ def ratechecker(rates):
                 i += 1
             n = 1
             checker = 0
-            while n < len(comps) and checker == 0:
+            while n < len(comps) - 1 and checker == 0:
                 percentchange = comps[n] - comps[n-1]
-                if percentchange >= 0.25:
+                if percentchange >= 0.20 and comps[n] > 1 and comps[n+1] > 1:
                     avgs.append(double(t[n+1]))
                     checker += 1
                 n += 1
@@ -126,7 +127,25 @@ def optimalRate (rates):
     result = sorted(wininds, key = wininds.count, reverse = True) 
     return result[0]    
             
-            
+def ctvals(rates, thresh, times):
+    sind = 0
+    t = []
+    while sind < len(rates) - 2:
+        rep1 = rates[sind]
+        rep2 = rates[sind +1]
+        rep3 = rates[sind + 2]
+        done = 0
+        for i in range(len(rep1)):
+            avgval = (double(rep1[i]) + double(rep2[i]) + double(rep3[i]))/3
+            if avgval >= thresh and done == 0:
+                t.append(times[i])
+                done += 1
+            else:
+                if i == len(rep1) - 1 and done == 0:
+                    t.append(0)
+        sind += 3
+    
+    return t        
             
             
             
@@ -134,5 +153,5 @@ def optimalRate (rates):
 
 
 
-filename = "Trial2Data.csv"
+filename = "Arpi_SD.csv"
 print(calc(filename))

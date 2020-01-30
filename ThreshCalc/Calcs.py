@@ -39,7 +39,7 @@ def calc(filename):
     opt = optimalRate(rates)
     ct = ctvals(rates, cutoff, times)
     maxtime = times[opt]
-    return "Threshold Value is " + str(cutoff) + " and optimal linearity is at time " + str(maxtime) + ". \n ct vals in order: " + str(ct)
+    return "Threshold Value is " + str(cutoff) + " and optimal linearity is at time " + str(maxtime) + " \n ct vals in order: " + str(ct)
 
 
 
@@ -77,20 +77,13 @@ def ratechecker(rates):
                     avgs.append(double(t[n+1]))
                     checker += 1
                 n += 1
-        for num in avgs:
-            numflags = 0
-            for c in avgs:
-                if num/c > 1.25 or num/c < 0.75:
-                    numflags += 1
-            if numflags == 2:
-                avgs.remove(num)
-                
-        addup = 0
-        if len(avgs) != 0:
-            for num in avgs:
-                addup += num
-            ctavg = addup/len(avgs)
-            group_ct.append(ctavg)
+        look = sorted(avgs)
+        if len(look) == 3: 
+            group_ct.append(look[1])
+        if len(look) == 2:
+            group_ct.append((look[0] + look[1])/2) 
+        if len(look) == 1:
+            group_ct.append(look[0])
     
     helpersum = 0
     if len(group_ct) != 0:                      

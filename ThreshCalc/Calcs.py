@@ -8,7 +8,9 @@ import csv
 from numpy import double
 
 
-
+'''
+reads in csv file to get rates
+'''
 def filereadrates(filename):
     rates = []
     with open(filename, 'r') as csvfile:
@@ -21,6 +23,9 @@ def filereadrates(filename):
     return rates
 
 
+'''
+reads in csv file to get time points
+'''
 def filereadtimes(filename):
     with open(filename, 'r') as csvfile:
         csvreader = csv.reader(csvfile)
@@ -30,7 +35,9 @@ def filereadtimes(filename):
 
     return times
 
-
+'''
+sets up output using the other functions in the program
+'''
 def calc(filename):
     times = filereadtimes(filename)
     rates = filereadrates(filename)
@@ -42,7 +49,9 @@ def calc(filename):
     return "Threshold Value is " + str(cutoff) + " and optimal linearity is at time " + str(maxtime) + " \n ct vals in order: " + str(ct)
 
 
-
+'''
+Finds threshold value used to get Ct values
+'''
 def ratechecker(rates):
     triplets = []
     strtind = 0
@@ -97,7 +106,9 @@ def ratechecker(rates):
     
     
     
-    
+'''
+Finds time of optimal linearity
+'''    
 def optimalRate (rates):
     wininds = []
     for rate in rates:
@@ -118,14 +129,19 @@ def optimalRate (rates):
         wininds.append(winnerind)
     result = sorted(wininds, key = wininds.count, reverse = True) 
     return result[0]    
-            
+ 
+ 
+ 
+'''
+Finds ct values for each triplicate in the csv
+'''           
 def ctvals(rates, thresh, times):
-    sind = 0
+    siind = 0
     t = []
-    while sind < len(rates) - 2:
-        rep1 = rates[sind]
-        rep2 = rates[sind +1]
-        rep3 = rates[sind + 2]
+    while siind < len(rates) - 2:
+        rep1 = rates[siind]
+        rep2 = rates[siind +1]
+        rep3 = rates[siind + 2]
         done = 0
         for i in range(len(rep1)):
             avgval = (double(rep1[i]) + double(rep2[i]) + double(rep3[i]))/3
@@ -135,7 +151,7 @@ def ctvals(rates, thresh, times):
             else:
                 if i == len(rep1) - 1 and done == 0:
                     t.append(0)
-        sind += 3
+        siind += 3
     
     return t        
             

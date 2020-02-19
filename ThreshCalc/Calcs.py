@@ -46,7 +46,9 @@ def calc(filename):
     opt = optimalRate(rates)
     ct = ctvals(rates, cutoff, times)
     maxtime = times[opt]
-    return "Threshold Value is " + str(cutoff) + " and optimal linearity is at time " + str(maxtime) + " \n ct vals in order: " + str(ct)
+    ct_by_med = manipulation_median(ct)
+    ct_by_mean = manipulation_mean(ct)
+    return "Threshold Value is " + str(cutoff) + " and optimal linearity is at time " + str(maxtime) + " \n ct vals in order: " + str(ct) + "\n median ct value for each sample: " + str(ct_by_med) + "\n mean ct value for each sample: " + str(ct_by_mean)
 
 
 '''
@@ -82,7 +84,7 @@ def ratechecker(rates):
             checker = 0
             while n < len(comps) - 1 and checker == 0:
                 percentchange = comps[n] - comps[n-1]
-                if percentchange >= 0.20 and comps[n] > 1 and comps[n+1] > 1:
+                if percentchange >= 0.12 and comps[n] > 1 and comps[n+1] > 1:
                     avgs.append(double(t[n+1]))
                     checker += 1
                 n += 1
@@ -158,12 +160,32 @@ def ctvals(rates, thresh, times):
             t.append(intermediate)
         siind += 1
     return t
-            
-            
-            
+ 
+ 
+'''
+returns median of the ct vals found for each sample
+'''           
+def manipulation_median(trips):
+    med = []
+    for trip in trips:
+        trip.sort()
+        med.append(trip[1])
+    return med
+        
+'''
+returns mean of the ct vals found for each sample
+'''           
+def manipulation_mean(trips):
+    men = []
+    for trip in trips:
+        sum = 0
+        for num in trip:
+            sum += num
+        avgval = sum//len(trip)
+        men.append(avgval)
+    return men
 
 
 
-
-filename = "CSFs.csv"
+filename = "FFUcheck.csv"
 print(calc(filename))

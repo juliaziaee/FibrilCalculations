@@ -161,5 +161,5 @@ def ctvals(rates, thresh, times):
 
 
 
-filename = "Arpi_SD.csv"
+filename = "CSFs.csv"
 print(calc(filename))

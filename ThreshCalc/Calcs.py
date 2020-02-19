@@ -181,7 +181,7 @@ def manipulation_mean(trips):
         sum = 0
         for num in trip:
             sum += num
-        avgval = sum//len(trip)
+        avgval = round(sum/len(trip), 2)
         men.append(avgval)
     return men
 

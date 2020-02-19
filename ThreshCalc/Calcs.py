@@ -138,22 +138,26 @@ Finds ct values for each triplicate in the csv
 def ctvals(rates, thresh, times):
     siind = 0
     t = []
-    while siind < len(rates) - 2:
-        rep1 = rates[siind]
-        rep2 = rates[siind +1]
-        rep3 = rates[siind + 2]
+    intermediate = []
+    for rate in rates:
+        if len(intermediate) == 3:
+            t.append(intermediate)
+            intermediate = []
+        ind = 0
         done = 0
-        for i in range(len(rep1)):
-            avgval = (double(rep1[i]) + double(rep2[i]) + double(rep3[i]))/3
-            if avgval >= thresh and done == 0:
-                t.append(times[i])
+        for num in rate:
+            if double(num) >= thresh and done == 0 and ind != 0:
+                intermediate.append(double(times[ind]))
                 done += 1
+                ind += 1
             else:
-                if i == len(rep1) - 1 and done == 0:
-                    t.append(0)
-        siind += 3
-    
-    return t        
+                if ind == (len(rate) - 1) and done == 0:
+                    intermediate.append(double(times[(len(rate) - 1)]))
+                ind += 1
+        if siind == len(rates) - 1:
+            t.append(intermediate)
+        siind += 1
+    return t
             
             
             

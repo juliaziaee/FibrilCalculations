@@ -116,10 +116,7 @@ def ratechecker(rates):
         thresholds_to_check.append(helpersum/len(group_ct))
         
     return thresholds_to_check
-
-    
-    
-    
+   
     
 '''
 Finds time of optimal linearity
@@ -217,8 +214,8 @@ def rsquare(means):
     xs = []
     for i in range(len(means)): 
         xs.append(i)
-    mean = sorted(means)
-    y = np.array(mean)
+    #mean = sorted(means)
+    y = np.array(means)
     x = np.array(xs)
     
     r2 = r2_score(y, linefitline(x, x, y))
@@ -233,5 +230,5 @@ def linefitline(b, x, y):
     
     
 
-filename = "Trial2Data.csv"
+filename = "Arpi_SD.csv"
 print(calc(filename))
